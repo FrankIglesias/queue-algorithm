@@ -11,7 +11,7 @@ require 'statistics'
 
 #Tiempos
 @t = 0
-@tf = 10000
+@tf = 10e5
 @tpll = 0
 
 #Acumuladores para calculos
@@ -35,11 +35,12 @@ end
 
 #--Generacion FDPs--
 def tiempo_de_atencion
-  Statistics::Distribution::Weibull.new(2.0077, 129.92).random
+  (Statistics::Distribution::Weibull.new(2.0077, 129.92).cumulative_function (Random.new.rand) * 10e6).round(5)
+  
 end
 
 def intervalo_de_llegada
-  Statistics::Distribution::Weibull.new(1, 1422.4).random
+  (Statistics::Distribution::Weibull.new(1, 1422.4).cumulative_function (Random.new.rand) * 10e6).round(5)
 end
 
 #--Metodos de puestos--
@@ -105,10 +106,10 @@ def calcular_e_imprimir_resultados
   end
   pps = (@ss-@sll) / @nt
 
-  puts "Porcentaje de tiempo ocioso del primer puesto: #{@puestos[0].pto}"
-  puts "Porcentaje de tiempo ocioso del segundo puesto: #{@puestos[1].pto}"
-  puts "Porcentaje de tiempo ocioso del tercer puesto: #{@puestos[2].pto}"
-  puts "Promedio de permanencia en el sistema: #{pps}"
+  puts "Porcentaje de tiempo ocioso del primer puesto: #{@puestos[0].pto.round(5)}"
+  puts "Porcentaje de tiempo ocioso del segundo puesto: #{@puestos[1].pto.round(5)}"
+  puts "Porcentaje de tiempo ocioso del tercer puesto: #{@puestos[2].pto.round(5)}"
+  puts "Promedio de permanencia en el sistema: #{pps.round(5.round(5))}"
 end
 #--Algoritmo
 while @t < @tf || @ns>0 do
