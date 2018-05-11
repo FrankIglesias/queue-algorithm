@@ -6,7 +6,7 @@
 @t = 0
 @ta = 0
 @sta = 0
-@tf = 300
+@tf = 10000
 @tpll = 0
 
 class Puesto
@@ -46,21 +46,21 @@ end
 
 def generar_salida puesto
   ta = tiempo_de_atencion
-  @puestos[puesto].tps = @t + ta
-  @puestos[puesto].disponible = @puestos[puesto].sta > @tma
-  @puestos[puesto].sta = 0 unless @puestos[puesto].disponible
+  puesto.tps = @t + ta
+  puesto.disponible = puesto.sta < @tma
+  puestos.sta = 0 unless puestos.disponible
 end
 
 def procesar_llegada
   @t = @tpll
   @tpll = @t + intervalo_de_llegada
   @ns += 1
-  if @ns <= @nsm1 && !puestos_activos && puestos_disponibles > 0
-    generar_salida 1
-  elsif @ns == @nsm2 && puestos_activos == 1
-    generar_salida 2
+  if @ns == @nsm1 && puestos_activos == 0 && puestos_disponibles > 0
+    generar_salida @puestos[0]
+  elsif @ns == @nsm2 && puestos_activos == 1 && puestos_disponibles > 1
+    generar_salida @puestos[1]
   elsif @ns == @nsm3 && puestos_activos == 2 && puestos_disponibles > 2
-    generar_salida 3
+    generar_salida @puestos[2]
   end
 end
 
