@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ruby-statistics (2.0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ruby-statistics
+
+BUNDLED WITH
+   1.16.1

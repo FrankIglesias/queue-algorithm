@@ -1,3 +1,5 @@
+require 'statistics'
+
 #--Condiciones Iniciales--
 #Variables de control
 @nsm1 = 1
@@ -35,11 +37,11 @@ end
 
 #--Generacion FDPs--
 def tiempo_de_atencion
-  Random.new.rand + 3
+  Statistics::Distribution::Weibull.new(2.0077, 129.92).random
 end
 
 def intervalo_de_llegada
-  Random.new.rand + 5 + 10
+  Statistics::Distribution::Weibull.new(1, 1422.4).random
 end
 
 #--Metodos de puestos--
@@ -111,7 +113,6 @@ def calcular_e_imprimir_resultados
   puts "Promedio de permanencia en el sistema: #{pps}"
   puts "Promedio de espera en cola: #{pec}"
 end
-
 #--Algoritmo
 while @t < @tf do
   if !puesto_proxima_salida || @tpll < puesto_proxima_salida.tps
